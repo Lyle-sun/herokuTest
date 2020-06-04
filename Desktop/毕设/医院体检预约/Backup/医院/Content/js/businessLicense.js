@@ -1,0 +1,1 @@
+document.write("<a href='http://wj.fz12315.gov.cn/ei/Ei!certificate.action?id=4028814b48a11e400148aa72d0e00021' target='_blank' style='border:0;'><img src='http://wj.fz12315.gov.cn/ei/Ei!readEiImgByMemory.action' style='border:0;'/></a>")

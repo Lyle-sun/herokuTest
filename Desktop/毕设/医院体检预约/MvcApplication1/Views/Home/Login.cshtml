@@ -1,0 +1,113 @@
+﻿@{
+    Layout = null;
+}
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>欢迎登录车辆管理系统</title>
+<link href="/Content/css/style.css" rel="stylesheet" type="text/css" />
+    <script src="../../Scripts/jquery-1.7.1.min.js"></script>
+<script src="/Content/js/cloud.js" type="text/javascript"></script>
+
+    @* <script type="text/javascript" type="text/javascript" src="@Url.Content("~/content/js/bootstrap.min.js")"></script>
+    <script type="text/javascript" type="text/javascript" src="@Url.Content("~/content/js/bootbox.js")"></script>*@
+        <script type="text/javascript"  src="@Url.Content("~/Scripts/Login/Login.js")"></script>
+<script language="javascript">
+    $(function () {
+        $('.loginbox').css({ 'position': 'absolute', 'left': ($(window).width() - 692) / 2 });
+        $(window).resize(function () {
+            $('.loginbox').css({ 'position': 'absolute', 'left': ($(window).width() - 692) / 2 });
+        })
+    });
+</script> 
+
+</head>
+
+<body style="background-color:#1c77ac; background-image:url(/Content/images/light.png); background-repeat:no-repeat; background-position:center top; overflow:hidden;">
+
+
+
+    <div id="mainBody">
+      <div id="cloud1" class="cloud"></div>
+      <div id="cloud2" class="cloud"></div>
+    </div>  
+
+
+<div class="logintop">    
+    <span>欢迎登录车辆管理系统</span>    
+    <ul>
+   @* <li><a href="/Home/Index">回首页</a></li>*@
+    </ul>    
+    </div>
+    
+    <div class="loginbody">
+    
+    <span class="systemlogo"></span> 
+       
+    <div class="loginbox loginbox2">
+    
+    <ul>
+    <li><input name="" type="text" class="loginuser"  onclick="JavaScript: this.value = ''"/ id="txtUserName"></li>
+    <li><input name="" type="password" class="loginpwd"  id="txtUserPsd" onclick="JavaScript: this.value = ''"/></li>
+   
+    <li><input name="" style="border:0;" type="button" class="loginbtn" value="登录" id="btnLogin" /></li>
+    </ul>
+    
+    
+    </div>
+    
+    </div>
+    
+    
+    <div class="loginbm">课程设计</div>
+	
+    
+</body>
+
+</html>
+<script type="text/javascript">
+    $(function () {
+        $("#btnLogin").click(function () {
+            var LoginName = $("#txtUserName").val();
+            var LoginPwd = $("#txtUserPsd").val();
+
+            if (LoginName == "") {
+                alert("请输入您的账号！", "提示", "确定");
+                return false;
+            }
+            if (LoginPwd == "") {
+                alert("请输入您的密码！", "提示", "确定");
+                return false;
+            }
+
+            $.ajax({
+                type: "post",
+                traditional: true,
+                url: "/Home/Login",
+                data: { LoginName: LoginName, LoginPwd: LoginPwd },
+                datatpye: "json",
+                success: function (data) {
+                    if (data == "0") {
+                        alert("账号或密码错误！");
+                        window.location = "/Home/Login";
+                    }
+                    else {
+                        window.location = "/Work/Index";
+                    }
+                }
+            });
+
+        });
+
+        $("body").keydown(function () {
+            if (event.keyCode == "13") {//keyCode=13是回车键
+                $('#btnLogin').click();
+            }
+        });
+    });
+   </script>
+
+

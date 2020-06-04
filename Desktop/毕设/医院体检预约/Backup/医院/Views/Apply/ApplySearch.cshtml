@@ -1,0 +1,51 @@
+﻿@model Conris.DBA.ViewModel.ApplySearch
+           <script type="text/javascript" src="/Content/js/jquery.js"></script>
+  <link rel="stylesheet" type="text/css" href="/Content/Date/jquery.datetimepicker.css"/ >
+<script src="/Content/Date/jquery.js"></script>
+   
+<script src="/Content/Date/jquery.datetimepicker.js"></script>
+ @using (Html.BeginForm("ApplyManage", "Apply", new RouteValueDictionary { { "Page", "" } }, FormMethod.Get, new { @id = "UserSub" }))
+ {
+    <div class="tools" >
+        <div style=" float:left; height:100%;text-align:center;padding:10px;">
+      姓名：@Html.TextBoxFor(m => m.Name, new { @style = "height:20px;" })
+              手机号码：@Html.TextBoxFor(m => m.QWGZ, new { @style = "height:20px;" })
+              身份证号：@Html.TextBoxFor(m => m.ZYJN, new { @style = "height:20px;" })
+             时间：@Html.TextBoxFor(m => m.Str2, new { @style = "height:20px;" })
+             </div>
+        <div>    	<ul class="toolbar" >
+            
+            <li  onclick="Submit()"><span><img src="/Content/images/ico06.png"  /></span>搜索</li>
+   
+           
+        </ul>
+        </div>
+
+        
+   
+        </div>
+      if (DBA.BLL.Users.GetNowUserType()=="管理员")
+      {
+<div class="tools" >
+          
+   <div class="welinfo">
+   
+    <b>该时间内总预约数为 @TempData["Num"],预约成功人数 @TempData["Tol"]</b>
+    </div>  
+        </div>
+      }
+       
+ }
+<script type="text/ecmascript">
+    function Submit() {
+        $("#UserSub").submit();
+    }
+    $('#Str2').datetimepicker();
+    $('#Str2').datetimepicker({
+        lang: "ch",
+        dayOfWeekStart: 1,
+        format: "Y/m/d",
+        startDate: '1986/01/05',
+        timepicker:false
+    });
+</script>

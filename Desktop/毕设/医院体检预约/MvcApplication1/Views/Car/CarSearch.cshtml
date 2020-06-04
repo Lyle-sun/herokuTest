@@ -1,0 +1,27 @@
+﻿@model Conris.DBA.ViewModel.CarSearch
+           <script type="text/javascript" src="/Content/js/jquery.js"></script>
+ @using (Html.BeginForm("CarManage", "Car", new RouteValueDictionary { { "Page", "" } }, FormMethod.Get, new { @id = "UserSub" }))
+ {
+    <div class="tools" >
+        <div style=" float:left; height:100%;text-align:center;padding:10px;">
+      车辆编号：@Html.TextBoxFor(m => m.CarNum, new { @style = "height:20px;" })
+              类别：@Html.DropDownList("CategoryID")
+             制造公司：@Html.DropDownList("ComID")
+             </div>
+        <div>    	<ul class="toolbar" >
+            
+            <li  onclick="Submit()"><span><img src="/Content/images/ico06.png"  /></span>搜索</li>
+   
+           
+        </ul>
+        </div>
+
+        
+   
+        </div>
+ }
+<script type="text/ecmascript">
+    function Submit() {
+        $("#UserSub").submit();
+    }
+</script>

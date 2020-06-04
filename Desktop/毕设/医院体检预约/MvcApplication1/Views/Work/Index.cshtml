@@ -1,0 +1,134 @@
+﻿@{
+    Layout = null;
+}
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="/Content/css/base.css" />
+<link rel="stylesheet" type="text/css" href="/Content/css/jquery.dialog.css" />
+<link rel="stylesheet" href="/Content/css/index.css" />
+
+<title>车辆管理系统 </title>
+  
+</head>
+
+<body>
+<div id="container">
+	<div id="hd">
+    	<div class="hd-wrap ue-clear">
+        	<div class="top-light"></div>
+            <h1 class="logo"></h1>
+            <div class="login-info ue-clear">
+                <div class="welcome ue-clear"><span>欢迎您，@DBA.BLL.Users.GetNowUserName()</span></div>
+              
+            </div>
+            <div class="toolbar ue-clear">
+             
+                 <a href="javascript:;"    class="quit-btn exit"></a>
+            </div>
+        </div>
+    </div>
+    <div id="bd">
+    	<div class="wrap ue-clear">
+        	<div class="sidebar">
+            	<h2 class="sidebar-header"><p>功能导航</p></h2>
+                 <ul class="nav">
+                     @if (DBA.BLL.Users.GetNowUserType() == "管理员")
+                     {
+                           <li class="office current"><div class="nav-header"><a href="javascript:;"  class="ue-clear"><span>制造公司管理</span><i class="icon"></i></a></div>
+                          <ul class="subnav">
+                        	<li><a href="javascript:;" date-src="/Company/CompanyManage">制造公司管理</a></li>
+                            <li><a href="javascript:;" date-src="/Company/Create">添加制造公司</a></li>
+                        </ul>
+                	</li>
+                      <li class="office "><div class="nav-header"><a href="javascript:;"  class="ue-clear"><span>车辆类型管理</span><i class="icon"></i></a></div>
+                          <ul class="subnav">
+                        	<li><a href="javascript:;" date-src="/Category/CategoryManage">车辆类型管理</a></li>
+                            <li><a href="javascript:;" date-src="/Category/Create">添加车辆类型</a></li>
+                        </ul>
+                	</li>
+                      
+                       <li class="office "><div class="nav-header"><a href="javascript:;"  class="ue-clear"><span>用户管理</span><i class="icon"></i></a></div>
+                          <ul class="subnav">
+                        	<li><a href="javascript:;" date-src="/Users/UsersManage">用户管理</a></li>
+                            <li><a href="javascript:;" date-src="/Users/Create">添加用户</a></li>
+                        </ul>
+                	</li> 
+                     }
+                    <li class="office "><div class="nav-header"><a href="javascript:;"  class="ue-clear"><span>车辆管理</span><i class="icon"></i></a></div>
+                          <ul class="subnav">
+                        	<li><a href="javascript:;" date-src="/Car/CarManage">车辆管理</a></li>
+                             
+                            <li><a href="javascript:;" date-src="/Car/Create">添加车辆</a></li>
+                               
+                        </ul>
+                	</li>
+                      <li class="office "><div class="nav-header"><a href="javascript:;"  class="ue-clear"><span>月度费用管理</span><i class="icon"></i></a></div>
+                          <ul class="subnav">
+                        	<li><a href="javascript:;" date-src="/CarRecords/CarRecordsManage">月度费用管理</a></li>
+                             
+                            <li><a href="javascript:;" date-src="/CarRecords/Create">添加月度费用</a></li>
+                               
+                        </ul>
+                	</li>
+                        </ul>
+            </div>
+            <div class="content">
+            	<iframe src="/Car/CarManage" id="iframe" width="100%" height="100%" frameborder="0"></iframe>
+            </div>
+        </div>
+    </div>
+    <div id="ft" class="ue-clear">
+    	<div class="ft-left">
+            <span></span>
+           
+        </div>
+        <div class="ft-right">
+            <span></span>
+            <em>2016</em>
+        </div>
+    </div>
+</div>
+<div class="exitDialog">
+	<div class="dialog-content">
+    	<div class="ui-dialog-icon"></div>
+        <div class="ui-dialog-text">
+        	<p class="dialog-content">你确定要退出系统？</p>
+            <p class="tips">如果是请点击“确定”，否则点“取消”</p>
+            
+            <div class="buttons">
+                <input type="button" class="button long2 ok" value="确定" id="btnQiut" />
+                <input type="button" class="button long2 normal" value="取消" />
+            </div>
+        </div>
+        
+    </div>
+</div>
+</body>
+<script type="text/javascript" src="/Content/js/jquery.js"></script>
+<script type="text/javascript" src="/Content/js/common.js"></script>
+<script type="text/javascript" src="/Content/js/core.js"></script>
+<script type="text/javascript" src="/Content/js/jquery.dialog.js"></script>
+<script type="text/javascript" src="/Content/js/index.js"></script>
+
+</html>
+<script type="text/javascript">
+    
+    $(function () {
+
+       
+        $("#btnQiut").click(function () {
+            $.ajax({
+                type: "post",
+                url: "/Home/LogOff",
+                success: function (data) {
+                    if (data) {
+                        parent.location.href = "/Home/Login";
+                    }
+                }
+            });
+        });
+    });
+</script>
+

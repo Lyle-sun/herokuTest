@@ -1,0 +1,31 @@
+﻿@model MVC.PagedList<DBA.Model.JobNews>
+@using MVC
+@{
+    ViewBag.Title = "List";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="warp">
+  <div class="ads">
+    <img alt="" src="/Content/images/banner2.jpg" width="100%">
+  </div>
+  <div class="listpage clearfix">
+    
+    <div class="rcon">
+      <ol class="breadcrumb">
+        <li><a href="#">首页</a></li>
+        <li class="active" id="lixx"> - 查询结果</li>
+      </ol>
+      <ul class="newslists">
+           @foreach (var item in Model)
+           { 
+                   <li><a class="newsline" href="/Home/Detail?ID=@item.ID" target="_blank">@item.Title</a><span class="newsdate">@item.CreateName</span></li>
+
+           }
+      </ul>
+     <div class="pagination pagination-centered">
+                                    @Html.Pager(Model, new PagerOptions { ShowFirstLast = false, PrevPageText = "上一页", NextPageText = "下一页", AlwaysShowFirstLastPageNumber = true }, "Paged", new { action = "List" })
+                                </div>
+    </div>
+  </div>
+</div>

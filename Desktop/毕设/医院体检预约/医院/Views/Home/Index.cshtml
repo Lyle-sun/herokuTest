@@ -1,0 +1,91 @@
+﻿@{
+    ViewBag.Title = "首页";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="warp">
+  <div class="banner">
+    <!-- <img alt="" src="/Content/images/banner.jpg" width="100%" /> -->
+    <div class="change-box">
+      <div class="img-box ads-one active"><img alt="" src="/Content/images/banner.jpg" width="100%" /></div>
+      <div class="img-box ads-two"><img alt="" src="/Content/images/banner0.jpg" width="100%"/></div>
+      <div class="img-box ads-three"><img alt="" src="/Content/images/banner2.jpg" width="100%" /></div>
+    </div>
+    <ul class="changebtn clearfix">
+      <li><a class="banbtn active" href="javascript:;"></a></li>
+      <li><a class="banbtn" href="javascript:;"></a></li>
+      <li><a class="banbtn" href="javascript:;"></a></li>
+    </ul>
+  </div>
+
+  <div class="news-moudle clearfix">
+    <div class="news-info mr15">
+      <div class="title">医院动态</div>
+      <ul id="yydt">
+       
+      </ul>
+    </div>
+    <div class="news-info mr15">
+      <div class="title">医疗器械</div>
+      <ul id="ylqx">
+      
+      </ul>
+    </div>
+    <div class="news-info mr10"  style="width:310px;">
+        <div class="title">医院荣誉</div>
+      <ul id="zjjs">
+       
+      </ul>
+      
+    </div>
+  </div>
+  
+  
+
+
+</div>
+<script type="text/ecmascript">
+    $(function () {
+        //1
+        $.ajax({
+            type: "post",
+            traditional: true,
+            url: "/Home/GetIndexNews",
+            data: { flag: 6, Category: "医院动态" },
+            datatpye: "json",
+            success: function (data) {
+                $.each(data, function (i, n) {
+                    $("#yydt").append("<li><a href='/Home/Detail?ID="+data[i].ID+"'>"+data[i].Title+"<img src='/Content/images/hot.gif' /></a></li>");
+                });
+            }
+        });
+        //2
+        $.ajax({
+            type: "post",
+            traditional: true,
+            url: "/Home/GetIndexNews",
+            data: { flag: 6, Category: "医疗器械" },
+            datatpye: "json",
+            success: function (data) {
+                $.each(data, function (i, n) {
+                    $("#ylqx").append("<li><a href='/Home/Detail?ID=" + data[i].ID + "'>" + data[i].Title + "<img src='/Content/images/hot.gif' /></a></li>");
+                });
+            }
+        });
+      
+        //4
+        $.ajax({
+            type: "post",
+            traditional: true,
+            url: "/Home/GetIndexNews",
+            data: { flag: 6, Category: "医院荣誉" },
+            datatpye: "json",
+            success: function (data) {
+                $.each(data, function (i, n) {
+                    $("#yyry").append("<li><a href='/Home/Detail?ID=" + data[i].ID + "'>" + data[i].Title + "<img src='/Content/images/hot.gif' /></a></li>");
+                });
+            }
+        });
+     
+    });
+</script>

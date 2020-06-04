@@ -1,0 +1,43 @@
+﻿@model List<DBA.Model.ClassRoom>
+
+
+    <table class="tablelist">
+    	<thead>
+    	<tr>
+        <th>序号<i class="sort"><img src="/Content/images/px.gif" /></i></th>
+        <th>教室</th>
+            <th>容纳人数</th>
+            <th>空闲时间</th>
+            <th>教室设备</th>
+            
+        <th>操作</th>
+        </tr>
+        </thead>
+        <tbody>
+              @if (Model != null && Model.Count > 0)
+{
+    int i = 0; 
+       
+            foreach (var item in Model)
+        {
+            i++;    
+        <tr>
+        <td>@i</td>
+        <td>@item.RoomName</td>
+             <td>@item.Num</td>
+             <td>@item.KXTime</td>
+             <td>@item.JSSB</td>
+        <td><a href="/ClassRoom/Create?ID=@item.ID"   >修改</a> 
+            <a href="#" onclick="Del(@item.ID)"   >删除</a> 
+           
+        </td>
+        </tr>    
+            }
+} 
+        </tbody>
+    </table>
+    
+
+
+    
+

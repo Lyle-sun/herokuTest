@@ -1,0 +1,48 @@
+﻿@model List<DBA.Model.CarRecords>
+
+
+    <table class="tablelist">
+    	<thead>
+    	<tr>
+        <th>序号<i class="sort"><img src="/Content/images/px.gif" /></i></th>
+        <th>月度</th>
+ <th>车辆编号</th>
+             <th>基本维护费</th>
+             <th>油价</th>
+             <th>公里数</th>
+             <th>月度总费用</th>
+        <th>操作</th>
+        </tr>
+        </thead>
+        <tbody>
+              @if (Model != null && Model.Count > 0)
+{
+    int i = 0; 
+       
+            foreach (var item in Model)
+        {
+            i++;    
+        <tr>
+        <td>@i</td>
+        <td>@item.Time</td>
+             
+              <td>@item.Str1</td>
+              <td>@item.JBWHF</td>
+              <td>@item.YJ</td>
+            <td>@item.GL</td>
+            <td>@item.Price</td>
+             
+        <td><a href="/CarRecords/Create?ID=@item.ID"   >修改</a> 
+            <a href="#" onclick="Del(@item.ID)"   >删除</a> 
+           
+        </td>
+        </tr>    
+            }
+} 
+        </tbody>
+    </table>
+    
+
+
+    
+

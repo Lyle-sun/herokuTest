@@ -1,0 +1,78 @@
+﻿@model MVC.PagedList<DBA.Model.Apply>
+@using MVC
+
+
+    <table class="tablelist">
+    	<thead>
+    	<tr>
+        <th>序号<i class="sort"><img src="/Content/images/px.gif" /></i></th>
+
+           <th>姓名</th> 
+            <th>性别</th> 
+             <th>年龄</th> 
+           <th>身份证号</th> 
+            <th>预约时间</th> 
+             <th>项目</th> 
+             <th>状态</th> 
+        <th>操作</th>
+        </tr>
+        </thead>
+        <tbody>
+              @if (Model != null && Model.Count > 0)
+{
+    int i = 0;
+            foreach (var item in Model)
+        {
+            i++;    
+        <tr>
+        <td>@i</td>
+            <td>@item.Name</td>
+            <td>@item.Sex</td>
+            <td>@item.Age</td>
+             <td>@item.ZYJN</td>
+             <td>@item.Str2</td>
+              <td>@item.Detail</td>
+            @if (item.Major=="已提交")
+            {
+                <td style="color:red;">@item.Major</td>
+            }
+            else{
+            <td style="color:green;">@item.Major</td>
+            }
+        <td>
+             @if (DBA.BLL.Users.GetNowUserType() == "用户"&&item.Major=="已提交")
+            {
+            
+             }
+              @if (DBA.BLL.Users.GetNowUserType() == "用户" && item.Major == "审核通过")
+            {
+             <a href="/Apply/Detail?ID=@item.ID"   >查看</a> 
+             }
+             @if (item.Major=="体检完成")
+            {
+            <a href="/Apply/Detail?ID=@item.ID"   >下载体检报告</a> 
+             }
+            @if (DBA.BLL.Users.GetNowUserType() == "管理员" &&item.Major=="已提交")
+            {
+               <a href="/Apply/RCreate?ID=@item.ID"   >审核</a>  
+            }
+             @if (DBA.BLL.Users.GetNowUserType() == "管理员" &&item.Major=="审核通过")
+            {
+                 <a  href="#" onclick="SX(@item.ID)"  >失信登记</a>  
+               <a href="/Apply/DCreate?ID=@item.ID"   >上传体检报告</a>  
+            }
+          <a href="#" onclick="Del(@item.ID)"   >删除</a> 
+           
+        </td>
+        </tr>    
+            }
+} 
+        </tbody>
+    </table>
+     <div class="pagination pagination-centered">
+    	  @Html.Pager(Model, new PagerOptions { ShowFirstLast = false, PrevPageText = "上一页", NextPageText = "下一页", AlwaysShowFirstLastPageNumber = true }, "Paged", new { action = "ApplyManage" })
+    </div>
+
+
+    
+

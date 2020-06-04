@@ -1,0 +1,130 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=emulateIE7" />
+<link rel="stylesheet" type="text/css" href="/Style/css/style.css" />
+<link rel="stylesheet" type="text/css" href="/Style/css/skin_/login.css" />
+<script type="text/javascript" src="/Style/js/jquery.js"></script>
+<script type="text/javascript" src="/Style/js/jquery.select.js"></script>
+<title>登录-医院体检预约管理系统</title>
+</head>
+
+<body>
+<div id="container">
+    <div id="bd">
+    	<div id="main">
+        	<div class="login-box">
+                <div id="logo"></div>
+                <h1></h1>
+                <div class="input username" id="username">
+                    <label for="userName">用户名</label>
+                    <span></span>
+                    <input type="text" id="txtUserName"  />
+                </div>
+                <div class="input psw" id="psw">
+                    <label for="password">密&nbsp;&nbsp;&nbsp;&nbsp;码</label>
+                    <span></span>
+                    <input type="password" id="txtUserPsd" />
+                </div>
+                <div class="input validate" id="validate">
+                    <label for="valiDate">确认密码</label>
+                    <input type="text" id="ComPwd">
+                   
+                </div>
+                
+                <div id="btn" class="loginButton" style="top:360px;">
+                    <input type="button"   id="btnRegist" class="button" value="注册"  />
+                     <input type="button"    id="btnLogin" class="button" value="去登录"  />
+                </div>
+            </div>
+        </div>
+    </div>
+   
+</div>
+
+</body>
+<script type="text/javascript">
+    var height = $(window).height() > 445 ? $(window).height() : 445;
+    $("#container").height(height);
+    var bdheight = ($(window).height() - $('#bd').height()) / 2 - 20;
+    $('#bd').css('padding-top', bdheight);
+    $(window).resize(function (e) {
+        var height = $(window).height() > 445 ? $(window).height() : 445;
+        $("#container").height(height);
+        var bdheight = ($(window).height() - $('#bd').height()) / 2 - 20;
+        $('#bd').css('padding-top', bdheight);
+    });
+    $('select').select();
+
+
+</script>
+
+</html>
+
+
+
+
+
+<script type="text/javascript">
+    $(function () {
+        $("#btnLogin").click(function () {
+            window.location = "/Home/Login";
+        });
+        $("#btnRegist").click(function () {
+            var LoginName = $("#txtUserName").val();
+            var LoginPwd = $("#txtUserPsd").val();
+            var ComPwd = $("#ComPwd").val();
+            if (LoginName == "") {
+                alert("请输入用户名！", "提示", "确定");
+                return false;
+            }
+            if (LoginName.length > 15|| LoginName.length<6) {
+                alert("用户名必须在6-15位之间！", "提示", "确定");
+                return false;
+            }
+            if (LoginPwd == "") {
+                alert("请输入您的密码！", "提示", "确定");
+                return false;
+            }
+            if (LoginPwd.length > 15|| LoginPwd.length < 6) {
+                alert("密码必须在6-15位之间！", "提示", "确定");
+                return false;
+            }
+            if (ComPwd != LoginPwd) {
+                alert("两次密码输入不一致！", "提示", "确定");
+                return false;
+            }
+            $.ajax({
+                type: "post",
+                traditional: true,
+                url: "/Home/Regist",
+                data: { LoginName: LoginName, LoginPwd: LoginPwd },
+                datatpye: "json",
+                success: function (data) {
+                    if (data == "0") {
+                        alert("当前用户名已经注册！");
+                        window.location = "/Home/Regist";
+                    }
+                    else {
+                        alert("注册成功，请登录！");
+                        window.location = "/Home/Login";
+                    }
+                }
+            });
+
+        });
+
+        $("body").keydown(function () {
+            if (event.keyCode == "13") {//keyCode=13是回车键
+                $('#btnLogin').click();
+            }
+        });
+    });
+   </script>
+
+

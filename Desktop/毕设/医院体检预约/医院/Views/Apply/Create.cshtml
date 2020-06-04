@@ -1,0 +1,234 @@
+﻿@model DBA.Model.Apply
+@{
+    ViewBag.Title = "Create";
+    Layout = null;
+}
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>求职信息</title>
+    <script src="../../Scripts/jquery-1.7.1.min.js"></script>
+
+        <link rel="stylesheet" type="text/css" href="/Content/Date/jquery.datetimepicker.css"/ >
+<script src="/Content/Date/jquery.js"></script>
+   
+<script src="/Content/Date/jquery.datetimepicker.js"></script>
+ 
+
+     <link href="@Url.Content("~/Content/css/zTreeStyle.css")" rel="stylesheet" />
+    <link href="/Content/css/style.css" rel="stylesheet" type="text/css" />
+<script src="@Url.Content("~/Content/js/jquery.ztree.all-3.5.min.js")"></script>
+
+   
+</head>
+
+<body class="add_test_img"  >
+
+	<div class="place">
+    <span>位置：</span>
+    <ul class="placeul">
+    <li><a href="#">首页</a></li>
+    <li><a href="#">预约体检</a></li>
+    </ul>
+    </div>
+    
+    <div class="formbody">
+    
+    <div class="formtitle"><span style="color:red;">预约体检（您目前已经失约 @DBA.BLL.Users.GetNowUserNum() 次，失约三次将不能再次预约体检）</span></div>
+    <form method="post" action="/Apply/Edit" id="form2">
+    <ul class="forminfo">
+         <li><label>姓名</label>@Html.TextBoxFor(m => m.Name, new { @class = "dfinput" })</li>
+           <li><label>性别</label><select name="Sex" id="selSex">
+               <option value="">请选择</option>
+               <option value="男">男</option>
+               <option value="女">女</option>
+                                  </select></li>
+                  <li><label>年龄</label>@Html.TextBoxFor(m => m.Age, new { @class = "dfinput" })</li>
+        <li><label>职业</label>@Html.TextBoxFor(m => m.CSHY, new { @class = "dfinput" })</li>
+        <li><label>现居住地</label>@Html.TextBoxFor(m => m.JZD, new { @class = "dfinput" })</li>
+          <li><label>身份证号</label>@Html.TextBoxFor(m => m.ZYJN, new { @class = "dfinput" })</li>
+        <li><label>联系电话</label>@Html.TextBoxFor(m => m.QWGZ, new { @class = "dfinput" })</li>
+         <li><label>预约时间</label>@Html.TextBoxFor(m => m.Str2, new { @class = "dfinput"})<input type="button" value="查询预约"  onclick="cx()"/><span id="tip" style="color:red;"></span></li>
+      
+         <li><label>体检项目</label>
+                    @Html.TextBoxFor(m => m.Detail, new { @class = "dfinput",  @onclick = "showExaminationItme();", @id = "Detail" })
+              
+         </li>
+        @if (Model.Major == "审核通过" || DBA.BLL.Users.GetNowUserType() == "管理员")
+        {
+             <li><label>注意事项</label>@Html.TextBoxFor(m => m.Str5, new { @class = "dfinput" })</li>
+        }
+        @Html.HiddenFor(m=>m.ID)
+         @Html.HiddenFor(m=>m.Str1)
+        @Html.HiddenFor(m=>m.ID)
+        @if (DBA.BLL.Users.GetNowUserType() == "用户" && DBA.BLL.Users.GetNowUserNum()!="3")
+            {
+            <li id="lihide"><label>&nbsp;</label><input name="" onclick="btnsava()" style="border:0;" type="button" class="btn" value="确认保存"/></li>
+        
+        }
+    </ul>
+    </form>
+    
+    </div>
+
+
+</body>
+
+</html>
+<div id="ExaminationItmeContent" class="menuDepartment" style="display: none; position: absolute;
+    z-index: 3;">
+    <ul id="treeExaminationItme" class="ztree" style="margin-top: 0px; border: 1px solid #617775;
+        background: #f5f5f5; width: 200px; height: 360px; overflow-y: scroll; overflow-x: auto;">
+    </ul>
+</div>
+<script type="text/ecmascript">
+    function checkMobile() {
+        var sMobile = $("#QWGZ").val();
+        if (!(/^1[3|4|5|8][0-9]\d{4,8}$/.test(sMobile))) {
+            alert("不是完整的11位手机号或者正确的手机号前七位");
+            return false;
+        }
+        else {
+            return true;
+        }
+    }
+
+    function isCardNo(card) {
+        // 身份证号码为15位或者18位，15位时全为数字，18位前17位为数字，最后一位是校验位，可能为数字或字符X  
+        var reg = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/;
+        if (reg.test(card) === false) {
+            alert("身份证输入不合法");
+            return false;
+        }
+        else {
+            return true;
+        }
+    }
+    function btnsava() {
+        if ($("#Name").val()=="") {
+            alert("请输入姓名");
+            return false;
+        }
+        if ($("#ZYJN").val() == "") {
+            alert("请输入身份证号");
+            return false;
+        }
+        if ($("#QWGZ").val() == "") {
+            alert("请输入联系电话");
+            return false;
+        }
+        if (!checkMobile()) {
+              return false;
+        }
+        if (!isCardNo($("#ZYJN").val())) {
+            return false;
+        }
+        $("#form2").submit();
+    }
+    $(function () {
+        if ('@Model.ID'!="0") {
+            $("#selSex").val('@Model.Sex');
+
+        }
+        $.ajax({
+            type: "post",
+            url: "/Apply/GetJson",
+            datatype: "json",
+            success: function (data) {
+                var znodes = eval(data);
+                $.fn.zTree.init($("#treeExaminationItme"), settingSel, znodes);
+                showExaminationItme();
+            }
+        });
+    });
+
+    function cx() {
+        
+        $.ajax({
+            type: "post",
+            traditional: true,
+            url: "/Apply/GetNum",
+            data: { Time: $("#Str2").val() },
+            datatpye: "json",
+            success: function (data) {
+                $("#tip").html("当前时间段已预约人数" + data + "人，最多预约15人");
+                if (parseInt(data) > 15) {
+                    $("#lihide").hide();
+                }
+            }
+        });
+    }
+
+    $('#Str2').datetimepicker();
+    $('#Str2').datetimepicker({
+        lang: "ch",
+        dayOfWeekStart: 1,
+        disabledDates: ['1986/01/08', '1986/01/09', '1986/01/10'],
+        startDate: '1986/01/05',        allowTimes: ['8:00', '8:30', '9:00', '9:30', '10:00'],        minDate:0,        step: 60
+    });
+
+
+
+    var settingSel = {
+        check: {
+            enable: true
+            // chkboxType: { "Y": "", "N": "" }
+        },
+        data: {
+            simpleData: {
+                enable: true
+            }
+        },
+        callback: {
+            beforeClick: beforeStudentClick,
+            onCheck: onCheckStudent
+        }
+    };
+
+    function beforeStudentClick(treeId, treeNode) {
+        var zTree = $.fn.zTree.getZTreeObj("treeExaminationItme");
+        zTree.checkNode(treeNode, !treeNode.checked, null, true);
+        return false;
+    }
+
+    function onCheckStudent(e, treeId, treeNode) {
+        var zTree = $.fn.zTree.getZTreeObj("treeExaminationItme"),
+            nodes = zTree.getCheckedNodes(true),
+            v = "",
+            k = "";
+        p = 0;
+        for (var i = 0, l = nodes.length; i < l; i++) {
+            if (!nodes[i].isParent) {
+                v += nodes[i].name + ",";
+                k += nodes[i].id + ",";
+                p += parseFloat(nodes[i].guid);
+            }
+        }
+        if (v.length > 0) v = v.substring(0, v.length - 1);
+        if (k.length > 0) k = k.substring(0, k.length - 1);
+        var cityObj = $("#Detail");
+        cityObj.attr("value", v);
+        $("#ExaminationItme2").val(k);
+    }
+
+    function showExaminationItme() {
+        hideDepartment();
+        var cityObj = $("#Detail");
+        var cityOffset = $("#Detail").offset();
+        $("#ExaminationItmeContent").css({ left: cityOffset.left + "px", top: cityOffset.top + cityObj.outerHeight() + "px" }).slideDown("fast");
+        $("body").bind("mousedown", onBodyDownDepartment);
+    }
+    function hideDepartment() {
+        $("#ExaminationItmeContent").fadeOut("fast");
+        $("body").unbind("mousedown", onBodyDownDepartment);
+    }
+    function onBodyDownDepartment(event) {
+        if (!(event.target.id == "Detail" || event.target.id == "ExaminationItmeContent" || $(event.target).parents("#ExaminationItmeContent").length > 0)) {
+            hideDepartment();
+        }
+    }
+    </script>
+

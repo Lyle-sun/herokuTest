@@ -1,0 +1,206 @@
+﻿
+@{
+    Layout = null;
+}
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="X-UA-Compatible" content="IE=emulateIE7" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="/Style/css/style.css" />
+<link rel="stylesheet" type="text/css" href="/Style/css/skin_/index.css" />
+<script type="text/javascript" src="/Style/js/jquery.js"></script>
+<script type="text/javascript" src="/Style/js/global.js"></script>
+<script type="text/javascript" src="/Style/js/jquery-ui-1.9.2.custom.min.js"></script>
+    <script src="../../Scripts/jquery-1.7.1.js"></script>
+<title>首页</title>
+</head>
+<body>
+<div id="container">
+	<div id="hd">
+    </div>
+    <div id="bd">
+    	<div id="main">
+           
+            <ul class="content-list">
+            	<li class="content-item system">
+                	<h2 class="content-hd">
+                    
+                    	<span class="title">医院概况</span>
+                        
+                    </h2>
+                    <div class="content-bd">
+                    	<ul class="content-list things" id="yygk">
+                        	
+                           
+                        </ul>
+                    </div>
+                </li>
+                <li class="content-item dothings">
+                	<h2 class="content-hd">
+                    	
+                    	<span class="title">医院动态</span>
+                    </h2>
+                    <div class="content-bd">
+                    	<ul class="content-list things" id="yydt">
+                        	
+                        </ul>
+                    </div>
+                </li>
+                <li class="content-item richeng">
+                	<h2 class="content-hd">
+                    	
+                    	<span class="title">医疗器械</span>
+                    </h2>
+                    <div class="content-bd">
+                    	<ul class="content-list things" id="ylqx">
+                        
+                        </ul>
+                    </div>
+                </li>
+                
+                <li class="content-item system">
+                	<h2 class="content-hd">
+                    	
+                    	<span class="title">医院环境</span>
+                    </h2>
+                    <div class="content-bd">
+                    	<ul class="content-list things" id="yyhj">
+                        	
+                        </ul>
+                    </div>
+                </li>
+                
+                <li class="content-item news">
+                	<h2 class="content-hd">
+                    	<span class="opt">
+                        	
+                        </span>
+                    	<span class="title">医院荣誉</span>
+                    </h2>
+                    <div class="content-bd">
+                    	<ul class="content-list things" id="yyry">
+                        	
+                        </ul>
+                    </div>
+                </li>
+                
+                <li class="content-item news">
+                	<h2 class="content-hd">
+                    	<span class="opt">
+                        
+                        </span>
+                    	<span class="title">操作说明</span>
+                    </h2>
+                    <div class="content-bd">
+                    	<ul class="content-list things" id="czsm">
+                        	
+                        </ul>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+</body>
+
+<script type="text/javascript">
+
+	
+	
+function resizeWidth (){
+	if($('#main').width() / 3 < minwidth){
+		$('.content-item').width(($('#main').width() / 2) - 15);
+	}else{
+		$('.content-item').width(($('#main').width() / 3) - 15);	
+	}
+		
+}
+</script>
+</html>
+
+<script type="text/ecmascript">
+    $(function () {
+
+        $.ajax({
+            type: "post",
+            traditional: true,
+            url: "/Home/GetIndexNews",
+            data: { flag: 5, Category: "医院概况" },
+            datatpye: "json",
+            success: function (data) {
+                $.each(data, function (i, n) {
+                    $("#yygk").append("  <li class='content-list-item'><i class='icon'></i><a href='/JobNews/NewsDetail/" + data[i].ID + "'>" + data[i].Title + "</a></li>  ");
+                });
+
+            }
+        });
+        $.ajax({
+            type: "post",
+            traditional: true,
+            url: "/Home/GetIndexNews",
+            data: { flag: 5, Category: "医院动态" },
+            datatpye: "json",
+            success: function (data) {
+                $.each(data, function (i, n) {
+                    $("#yydt").append("  <li class='content-list-item'><i class='icon'></i><a href='/JobNews/NewsDetail/" + data[i].ID + "'>" + data[i].Title + "</a></li>  ");
+                });
+
+            }
+        });
+        $.ajax({
+            type: "post",
+            traditional: true,
+            url: "/Home/GetIndexNews",
+            data: { flag: 5, Category: "医疗器械" },
+            datatpye: "json",
+            success: function (data) {
+                $.each(data, function (i, n) {
+                    $("#ylqx").append("  <li class='content-list-item'><i class='icon'></i><a href='/JobNews/NewsDetail/" + data[i].ID + "'>" + data[i].Title + "</a></li>  ");
+                });
+
+            }
+        });
+        $.ajax({
+            type: "post",
+            traditional: true,
+            url: "/Home/GetIndexNews",
+            data: { flag: 5, Category: "医院环境" },
+            datatpye: "json",
+            success: function (data) {
+                $.each(data, function (i, n) {
+                    $("#yyhj").append("  <li class='content-list-item'><i class='icon'></i><a href='/JobNews/NewsDetail/" + data[i].ID + "'>" + data[i].Title + "</a></li>  ");
+                });
+
+            }
+        });
+        $.ajax({
+            type: "post",
+            traditional: true,
+            url: "/Home/GetIndexNews",
+            data: { flag: 5, Category: "医院荣誉" },
+            datatpye: "json",
+            success: function (data) {
+                $.each(data, function (i, n) {
+                    $("#yyry").append("  <li class='content-list-item'><i class='icon'></i><a href='/JobNews/NewsDetail/" + data[i].ID + "'>" + data[i].Title + "</a></li>  ");
+                });
+
+            }
+        });
+        $.ajax({
+            type: "post",
+            traditional: true,
+            url: "/Home/GetIndexNews",
+            data: { flag: 5, Category: "操作说明" },
+            datatpye: "json",
+            success: function (data) {
+                $.each(data, function (i, n) {
+                    $("#czsm").append("  <li class='content-list-item'><i class='icon'></i><a href='/JobNews/NewsDetail/" + data[i].ID + "'>" + data[i].Title + "</a></li>  ");
+                });
+
+            }
+        });
+    });
+</script>

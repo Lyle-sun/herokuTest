@@ -1,0 +1,84 @@
+﻿@model DBA.Model.CarRecords
+@{
+    ViewBag.Title = "Create";
+    Layout = null;
+}
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>入库</title>
+    <script src="../../Scripts/jquery-1.7.1.min.js"></script>
+<link href="/Content/css/style.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body class="add_test_img"  >
+
+	<div class="place">
+    <span>位置：</span>
+    <ul class="placeul">
+    <li><a href="#">首页</a></li>
+    <li><a href="#">添加月费用</a></li>
+    </ul>
+    </div>
+    
+    <div class="formbody">
+    
+    <div class="formtitle"><span>添加月费用</span></div>
+    <form method="post" action="/CarRecords/Edit">
+    <ul class="forminfo">
+          <li><label>月度</label>@Html.TextBoxFor(m => m.Time, new { @class = "dfinput" })</li>
+          <li><label>车辆编号</label><input type="text" class = "dfinput" id="CarNum" /><input type="button" value="查找" onclick="cxbook()"/></li>
+         @Html.HiddenFor(m => m.Str1)
+          @Html.HiddenFor(m => m.CarID)
+          <li><label>基本维护费</label>@Html.TextBoxFor(m => m.JBWHF, new { @class = "dfinput" })</li>
+        <li><label>耗油量/公里</label><input type="text" class = "dfinput" id="HYL" /></li>
+          <li><label>油价</label>@Html.TextBoxFor(m => m.YJ, new { @class = "dfinput" })</li>
+           <li><label>公里数</label>@Html.TextBoxFor(m => m.GL, new { @class = "dfinput",@onchange="jisuan()" })</li>
+           <li><label>月度总费用</label>@Html.TextBoxFor(m => m.Price, new { @class = "dfinput" })</li>
+        
+        @Html.HiddenFor(m=>m.ID)
+    <li><label>&nbsp;</label><input name="" style="border:0;" type="submit" class="btn" value="确认保存"/></li>
+    </ul>
+    </form>
+    
+    </div>
+
+
+</body>
+
+</html>
+<script type="text/ecmascript">
+    function cxbook() {
+        var CarNum = $("#CarNum").val();
+        $.ajax({
+            type: "post",
+            traditional: true,
+            url: "/Car/GetCar",
+            data: { CarNum: CarNum },
+            datatpye: "json",
+            success: function (data) {
+                if (data && data.length > 0) {
+                    $("#Str1").val(data[0].CarNum);
+                    $("#JBWHF").val(data[0].JBWH);
+                    $("#CarID").val(data[0].ID);
+                    $("#HYL").val(data[0].HYL);
+                }
+                else {
+                    alert("请输入正确的车辆编号~");
+                }
+            }
+        });
+    }
+    function jisuan()
+    {
+        var HYL=parseFloat($("#HYL").val().trim());
+        var YJ=parseFloat($("#YJ").val().trim());
+        var GL=parseFloat($("#GL").val().trim());
+        $("#Price").val(HYL * YJ * GL);
+    }
+</script>
+
+
